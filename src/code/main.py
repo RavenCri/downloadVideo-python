@@ -17,7 +17,7 @@ def initWindow():
     height = 600
     # 设置标题
     myWindow.title('视频下载器（@version:1.0.0）')
-
+    myWindow.resizable(width=False, height=False)
     #获取屏幕尺寸以计算布局参数，使窗口居屏幕中央
     screenwidth = myWindow.winfo_screenwidth()
     screenheight = myWindow.winfo_screenheight()
@@ -27,15 +27,14 @@ def initWindow():
     myWindow.resizable(width=False, height=True)
 def wedFunc(wedSelect,wedMap):
     global  videoRescous
-    print((int(wedMap[wedSelect.get()]) +1))
+    #print((int(wedMap[wedSelect.get()]) +1))
     if wedMap[wedSelect.get()] == '00':
         for i in range(1,len(wedMap.keys())):
-            videoRescous['content'] += readFile("video%d.json" %  (i))['content']
-
+            videoRescous[str(i)] = readFile("video%d.json" %  (i))[str(i)]
 
     else:
         videoRescous = readFile("video%d.json" %  (int(wedMap[wedSelect.get()]) +1))
-    print(videoRescous)
+   # print(videoRescous)
     gradesBox()
     subjectBox()
     editionBox()
@@ -78,17 +77,22 @@ def load():
     print(grad[gradesSelect.get()])
     print(subj[subjectsSelect.get()])
     print(edit[editionsSelect.get()])
-    for index,video in enumerate(videoRescous['content']):
+
+    for index,item in enumerate(videoRescous):
         #print(video)
         #print(video)
-        if (pha[phasesSelect.get()] == '00' or video['phase'] == pha[phasesSelect.get()]  ) and \
-            (grad[gradesSelect.get()] == '00' or video['grade'].find(grad[gradesSelect.get()]) >= 0 ) and \
-           (subj[subjectsSelect.get()] == '00' or video['subject'] == subj[subjectsSelect.get()]  ) and \
-           (edit[editionsSelect.get()] == '00' or video['edition'] == edit[editionsSelect.get()]):
-           videos.append(video)
-           i += 1
-           listBox.insert(index,str(i)+"、"+video['package_name'])
+
+        for video in videoRescous[item]:
+            print(video)
+            if (pha[phasesSelect.get()] == '00' or video['phase'] == pha[phasesSelect.get()]  ) and \
+               (grad[gradesSelect.get()] == '00' or video['grade'].find(grad[gradesSelect.get()]) >= 0 ) and \
+               (subj[subjectsSelect.get()] == '00' or video['subject'] == subj[subjectsSelect.get()]  ) and \
+               (edit[editionsSelect.get()] == '00' or video['edition'] == edit[editionsSelect.get()]):
+               videos.append(video)
+               i += 1
+               listBox.insert(END,str(i)+"、"+video['package_name'])
     selectVar = tk.StringVar()
+
 
     selectVar.set('共获取到：' + str(len(videos)) + '个视频,已选中0个')
     tip = tk.Label(myWindow, text =selectVar.get(),font=('Arial', 12),bg='green',fg="white")
@@ -167,7 +171,7 @@ def update_progress_bar():
         "Referer": "http://jiaoxue.ahedu.cn/index.html"
     }
     currVar = tk.StringVar()
-
+    print(selectIndexs)
     for index,item in enumerate(selectIndexs):
 
 
@@ -176,15 +180,17 @@ def update_progress_bar():
         cu = tk.Label(top, text=currVar.get(), bg="white", fg="green", font=('Arial', 13))
         cu.place(x=20, y=20)
         #print(currVar.get())
-        fileName = "第%d课时-%s-%s-%s-%s" % (
-            (int(wedMap[wedSelect.get()])+1)*5,
+
+        fileName = "第%s课时-%s-%s-%s-%s" % (
+            videos[item]['class_period'],
+            #(int(wedMap[wedSelect.get()])+1)*5,
             contect['GLOBAL_GRADES'][ videos[selectIndexs[index]]['grade'] ]['name']
             ,
             contect['GLOBAL_SUBJECTS'][videos[selectIndexs[index]]['subject']]['name'],
             #subjectsSelect.get(),
             contect['GLOBAL_EDITIONS'][videos[selectIndexs[index]]['edition']]['name'],
             #editionsSelect.get(),
-            videos[item]['package_name'])
+            videos[item]['package_name'].replace('?',''))
         #print(fileName)
         r = requests.get(videos[item]['url'], headers=header, stream=True, verify=False)
         print("当前链接：" + videos[item]['url'])
@@ -198,17 +204,17 @@ def update_progress_bar():
                                   contect['GLOBAL_EDITIONS'][videos[selectIndexs[index]]['edition']]['name']
                                   )
         print(currPath)
-        if  not os.path.exists(currPath):
+        if not os.path.exists(currPath):
             os.makedirs(currPath)
         with open(currPath+'\\' + fileName + "." + videos[item]['url'].split('.')[-1], 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024 * 1024) :
+            for chunk in r.iter_content(chunk_size=1024 ) :
                 if chunk:
                     temp_size += len(chunk)
                     f.write(chunk)
                     f.flush()
                     done = int(50 * temp_size / total_size)
                     #print("下载的done:"+str(done))
-                    if  closeWindow:
+                    if closeWindow:
                         print("用户取消下载" )
                         return
     messagebox.showinfo("下载完成","您的任务已下载完毕~")
@@ -243,7 +249,7 @@ def show():
     closeWindow = FALSE
     screenwidth = top.winfo_screenwidth()
     screenheight = top.winfo_screenheight()
-    alignstr = '%dx%d+%d+%d' % (630, 200, (screenwidth - 630) / 2, (screenheight - 200) / 2)
+    alignstr = '%dx%d+%d+%d' % (700, 200, (screenwidth - 700) / 2, (screenheight - 200) / 2)
     top.geometry(alignstr)
     top.resizable(False, False)
     top.config(bg='#535353')
@@ -271,7 +277,6 @@ def show():
     top.mainloop()
 def listBoxMouseClick(event):
    if len(videos) > 0:
-       for i in range(listBox.size()):
 
         selectVar.set('共获取到：%d个视频,已选中%d个' % (len(videos),len(listBox.curselection())))
         tip = tk.Label(myWindow, text=selectVar.get(), font=('Arial', 12), bg='green', fg="white")
@@ -412,20 +417,31 @@ def subjectBox():
 
     subj = {}
     subj['全部科目'] = '00'
-    show_subj_code=[]
+    show_subj_code={}
     # 如果不是全部年级的话，筛选出该年级的科目
-    if grad[gradesSelect.get()] != '00':
-        # 找出该年级有的所有科目
-        for gradChid in contect['GLOBAL_GRADES']:
-            #print(contect['GLOBAL_GRADES'][gradChid]['name'] )
-            if contect['GLOBAL_GRADES'][gradChid]['name']  == gradesSelect.get():
-                for g in contect['GLOBAL_GRADES'][gradChid]['childrenCodes']:
-                    show_subj_code.append(g['subjectCode'])
-        print("科目编号："+str(show_subj_code))
+    #if grad[gradesSelect.get()] != '00':
+    # 找出该年级有的所有科目
+    for gradChid in contect['GLOBAL_GRADES']:
+        #print(contect['GLOBAL_GRADES'][gradChid]['name'] )
+        # 如果 学科 与选择的年级一致
+        if (contect['GLOBAL_GRADES'][gradChid]['name']  == gradesSelect.get()  or grad[gradesSelect.get()] == '00') and \
+            contect['GLOBAL_GRADES'][gradChid]['phaseCode'] == pha[phasesSelect.get()]  :
+            print(contect['GLOBAL_GRADES'][gradChid])
+            for g in contect['GLOBAL_GRADES'][gradChid]['childrenCodes']:
+                #print(contect['GLOBAL_GRADES'][gradChid]['phaseCode'])
+                # 年级代码  阶段代码
+                show_subj_code[ g['subjectCode'] ] = contect['GLOBAL_GRADES'][gradChid]['phaseCode']
+    #print("科目编号："+str(show_subj_code))
+    print("显示的科目"+str(show_subj_code))
+    print(show_subj_code.keys())
+
     for su in contect['GLOBAL_SUBJECTS'].keys():
+
+        # 如果科目代码相同 且 科目所在的阶段
+        if (contect['GLOBAL_SUBJECTS'][su]['code'] in show_subj_code.keys() or pha[phasesSelect.get()] == '00') :
+
+                subj[contect['GLOBAL_SUBJECTS'][su]['name']] = contect['GLOBAL_SUBJECTS'][su]['code']
         # 如果科目包括在这个年级里
-        if contect['GLOBAL_SUBJECTS'][su]['code'] in show_subj_code or grad[gradesSelect.get()]=='00':
-            subj[contect['GLOBAL_SUBJECTS'][su]['name']] = contect['GLOBAL_SUBJECTS'][su]['code']
 
     subjList = list(subj.keys())
     subjectsSelect['value'] = subjList
@@ -439,7 +455,7 @@ def editionBox():
 
     global edit
     edit = {}
-    edit['全部出版社'] = '00'
+
     show_edit_code = []
     print("年级代码" + grad[gradesSelect.get()])
     print("学科代码" + subj[subjectsSelect.get()])
@@ -456,13 +472,35 @@ def editionBox():
     #print(grad)
 
     for ed in contect['GLOBAL_EDITIONS'].keys():
-        if contect['GLOBAL_EDITIONS'][ed]['code'] in show_edit_code or subj[subjectsSelect.get()] == '00':
+
+        if (contect['GLOBAL_EDITIONS'][ed]['code'] in show_edit_code \
+                or subj[subjectsSelect.get()] == '00'):
             edit[contect['GLOBAL_EDITIONS'][ed]['name']] = contect['GLOBAL_EDITIONS'][ed]['code']
 
+    # 如果出版社的内容为空 删除该出版社
+    temp = []
+    for e in list(edit.keys()):
+        for i in videoRescous:
+            for index in videoRescous[i]:
+                # 遍历所有 判断该出版社是否有视频  grad[gradesSelect.get()] == '00' 这个条件会放进来一些数据
+                if (pha[phasesSelect.get()] == '00' or index['phase'].find(pha[phasesSelect.get()] ) >= 0) and \
+                    (grad[gradesSelect.get()] == '00' or index['grade'].find(grad[gradesSelect.get()] ) >= 0) and \
+                    index['subject'] == subj[subjectsSelect.get()] and \
+                        index['edition'] == edit[e]:
+                        if e not in temp:
+                            temp.append(e)
+                        continue;
+   # 遍历当前要显示的出版社
+    for t in list(edit.keys()):
+        if (t not in temp and subj[subjectsSelect.get()] != '00') :
+            #print(t)
+            del (edit[t])
+    print(temp)
+    edit['全部出版社'] = '00'
     editList = list(edit.keys())
     editionsSelect['value'] = editList
     editionsSelect.place(x = 260,y = 180)
-    editionsSelect.current(0)
+    editionsSelect.current(len(edit.keys())-1)
 
 def updateData():
     global videoRescous
@@ -482,7 +520,7 @@ def updateData():
         if len(json_str) == 0:
             break
         newJSON={
-            "content":json_str
+            str(filesNum):json_str
         }
         # 字典转字符串
         #newJSON = json.dumps(newJSON)
