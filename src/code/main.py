@@ -107,10 +107,11 @@ def downLoadVideo():
 
         #filename = tkinter.filedialog.askopenfilename()
         downPath = tkinter.filedialog.askdirectory()
+        downPath = downPath.replace('/', '\\')
         if downPath != '':
             t = time.gmtime()
             print("您选择的文件是：" + downPath)
-            downPath = downPath + "/" + time.strftime("video-%Y-%m-%d-%H-%M-%S") + "/"
+            downPath = os.path.join(downPath,time.strftime("video-%Y-%m-%d-%H-%M-%S"))
             show()
         else:
             print("取消了下载")
@@ -169,7 +170,13 @@ def update_progress_bar():
         cu.place(x=20, y=20)
         #print(currVar.get())
         fileName = "%s-%s-%s-%s" % (
-            gradesSelect.get(), subjectsSelect.get(), editionsSelect.get(), videos[item]['package_name'])
+            contect['GLOBAL_GRADES'][ videos[selectIndexs[index]]['grade'] ]['name']
+            ,
+            contect['GLOBAL_SUBJECTS'][videos[selectIndexs[index]]['subject']]['name'],
+            #subjectsSelect.get(),
+            contect['GLOBAL_EDITIONS'][videos[selectIndexs[index]]['edition']]['name'],
+            #editionsSelect.get(),
+            videos[item]['package_name'])
         #print(fileName)
         r = requests.get(videos[item]['url'], headers=header, stream=True, verify=False)
         print("当前链接：" + videos[item]['url'])
@@ -177,7 +184,15 @@ def update_progress_bar():
         total_size = int(r.headers['Content-Length'])
         temp_size = 0
         done = 0
-        with open(downPath + fileName + "." + videos[item]['url'].split('.')[-1], 'wb') as f:
+
+        currPath = os.path.join(  downPath,contect['GLOBAL_GRADES'][ videos[selectIndexs[index]]['grade'] ]['name'],
+                                  contect['GLOBAL_SUBJECTS'][videos[selectIndexs[index]]['subject']]['name'],
+                                  contect['GLOBAL_EDITIONS'][videos[selectIndexs[index]]['edition']]['name']
+                                  )
+        print(currPath)
+        if  not os.path.exists(currPath):
+            os.makedirs(currPath)
+        with open(currPath+'\\' + fileName + "." + videos[item]['url'].split('.')[-1], 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024 * 1024) :
                 if chunk:
                     temp_size += len(chunk)
@@ -268,6 +283,16 @@ def initUI():
         '第四周3.23-3.27': "3",
         '第五周3.30-4.3': "4"
     }
+    recousePath = os.path.join(os.path.abspath('./'), "rescouse")
+    files = os.listdir(recousePath)
+    fileNum = len(files)
+
+    while fileNum > 6:
+        key = '第%d周' % (fileNum - 1)
+        val = ('%d' % (fileNum-2))
+        wedMap[key]  = val
+        fileNum -= 1
+
     wed.place(x=200, y=20)
     wedSelect = ttk.Combobox(myWindow)
     wedSelect.pack()
@@ -276,7 +301,7 @@ def initUI():
     wedSelect['value'] = list(wedMap.keys())
     wedSelect.place(x=260, y=20)
     wedSelect.current(len(wedSelect['value'] )-1)
-    videoRescous = readFile("video5.json")
+
 
     '''
                初始化年级阶段
@@ -430,6 +455,35 @@ def editionBox():
     editionsSelect.place(x = 260,y = 180)
     editionsSelect.current(0)
 
+def updateData():
+    global videoRescous
+    url = 'http://jiaoxue.ahedu.cn/static_zxjx2020/js/json%d.js?version=20200331'
+    recousePath = os.path.join(os.path.abspath('./'), "rescouse")
+    files= os.listdir(recousePath)
+    filesNum = len(files)
+    header = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.13 Safari/537.36",
+        "Referer": "http://jiaoxue.ahedu.cn/index.html"
+    }
+    while TRUE:
+        r = requests.get((url % filesNum), headers=header, stream=True, verify=False)
+        json_str = r.content.decode()
+        json_str= json_str.split("=", 1)[1]
+        json_str = json.loads(json_str)
+        if len(json_str) == 0:
+            break
+        newJSON={
+            "content":json_str
+        }
+        # 字典转字符串
+        #newJSON = json.dumps(newJSON)
+        # 字符串 转 字典
+        #newJSON = json.loads(newJSON)
+
+        with open(recousePath+("\\video%d.json" % filesNum), 'w',encoding = 'utf-8') as f:
+            json.dump(newJSON,f,ensure_ascii=False,indent=4)
+        filesNum += 1
+    videoRescous = readFile("video%d.json" % (filesNum-1))
 
 def readFile(fileName):
     print(os.path.abspath('./')+'\\rescouse\\'+fileName)
@@ -449,11 +503,12 @@ top = Tk()
 top.withdraw()
 # 初始化Tk()
 myWindow = tk.Tk()
-
-videoRescous = readFile("video5.json")
+videoRescous = {}
 contect = readFile("contect.json")
+updateData()
 initWindow()
 initUI()
+
 myWindow.protocol('WM_DELETE_WINDOW', on_closing2)
 # 进入消息循环
 myWindow.mainloop()
