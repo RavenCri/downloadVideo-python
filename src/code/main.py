@@ -9,6 +9,7 @@ import threading
 import tkinter as tk
 from tkinter import *
 
+from collections import Counter
 def initWindow():
     global alignstr
     #设置窗口大小
@@ -27,7 +28,13 @@ def initWindow():
 def wedFunc(wedSelect,wedMap):
     global  videoRescous
     print((int(wedMap[wedSelect.get()]) +1))
-    videoRescous = readFile("video%d.json" %  (int(wedMap[wedSelect.get()]) +1))
+    if wedMap[wedSelect.get()] == '00':
+        for i in range(1,len(wedMap.keys())):
+            videoRescous['content'] += readFile("video%d.json" %  (i))['content']
+
+
+    else:
+        videoRescous = readFile("video%d.json" %  (int(wedMap[wedSelect.get()]) +1))
     print(videoRescous)
     gradesBox()
     subjectBox()
@@ -169,7 +176,8 @@ def update_progress_bar():
         cu = tk.Label(top, text=currVar.get(), bg="white", fg="green", font=('Arial', 13))
         cu.place(x=20, y=20)
         #print(currVar.get())
-        fileName = "%s-%s-%s-%s" % (
+        fileName = "第%d课时-%s-%s-%s-%s" % (
+            (int(wedMap[wedSelect.get()])+1)*5,
             contect['GLOBAL_GRADES'][ videos[selectIndexs[index]]['grade'] ]['name']
             ,
             contect['GLOBAL_SUBJECTS'][videos[selectIndexs[index]]['subject']]['name'],
@@ -274,9 +282,10 @@ def initUI():
                  初始化事件
     '''
 
-    global phasesSelect, subjectsSelect, editionsSelect, gradesSelect, listBox
+    global phasesSelect, subjectsSelect, editionsSelect, gradesSelect, listBox,wedSelect,wedMap
     wed = tk.Label(myWindow, text='周数：', font=('Arial', 12))
     wedMap = {
+        '全部周数': "00",
         '第一周3.2-3.6': "0",
         '第二周3.9-3.13': "1",
         '第三周3.16-3.20': "2",
@@ -379,7 +388,7 @@ def gradesBox():
     global  grad
 
     grad = {}
-    grad['全部'] = '00'
+    grad['全部年级'] = '00'
     for gr in contect['GLOBAL_GRADES'].keys():
         #print(contect['GLOBAL_GRADES'][gr]['phaseCode'])
         # 如果是小学的年级 03 则添加进去
@@ -402,7 +411,7 @@ def subjectBox():
 
 
     subj = {}
-    subj['全部'] = '00'
+    subj['全部科目'] = '00'
     show_subj_code=[]
     # 如果不是全部年级的话，筛选出该年级的科目
     if grad[gradesSelect.get()] != '00':
@@ -430,7 +439,7 @@ def editionBox():
 
     global edit
     edit = {}
-    edit['全部'] = '00'
+    edit['全部出版社'] = '00'
     show_edit_code = []
     print("年级代码" + grad[gradesSelect.get()])
     print("学科代码" + subj[subjectsSelect.get()])
