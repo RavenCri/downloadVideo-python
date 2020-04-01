@@ -124,7 +124,9 @@ def load():
 
     select = tk.StringVar()
     select.set('共获取到：%d个视频,已选中0个' % len(videos))
-
+    '''
+        不知道为什么这里不能正常显示值？？
+    '''
     tip = tk.Label(myWindow, textvariable=select, bg='#DA70D6', fg="white")
     tip.place(x=200, y=460)
 
