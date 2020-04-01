@@ -24,7 +24,13 @@ def initWindow():
     myWindow.geometry(alignstr)
     # 设置窗口是否可变长、宽，True：可变，False：不可变
     myWindow.resizable(width=False, height=True)
-
+    # 设置关闭事件
+    myWindow.protocol('WM_DELETE_WINDOW', on_closing2)
+    # 隐藏窗口
+    # myWindow.withdraw()
+    # 显示窗口
+    #top.update()
+    #top.deiconify()
 '''
     选择周数将会触发重新读取视频json文件
 '''
@@ -78,20 +84,15 @@ def subjectsFunc(subjectsSelect):
 
 
 def selectAllItem():
-    global checkVar, videos
-
+    global checkVar, videos,selectVar
+    print(checkVar.get())
     # 如果之前的状态是没有选择，那么直接全选，否则全部取消选择
     if checkVar.get() == 0:
-        checkVar.set(1)
-        listBox.select_set(0, len(videos) - 1)
-        select.set('共获取到：%d个视频,已选中%d个' % (len(videos), len(videos)))
-        # tip = tk.Label(myWindow, text=selectVar.get(), font=('Arial', 12), bg='green', fg="white")
-    else:
-        checkVar.set(0)
         listBox.select_clear(0, len(videos) - 1)
-        select.set('共获取到：%d个视频,已选中%d个' % (len(videos), 0))
-        # tip = tk.Label(myWindow, text=selectVar.get(), font=('Arial', 12), bg='green', fg="white")
-    # tip.place(x=200, y=460)
+        selectVar.set('共获取到：%d个视频,已选中%d个' % (len(videos), 0))
+    else:
+        listBox.select_set(0, len(videos) - 1)
+        selectVar.set('共获取到：%d个视频,已选中%d个' % (len(videos), len(videos)))
 
 
 '''
@@ -102,8 +103,8 @@ def selectAllItem():
 def load():
     listBox.delete(0, tk.END)
     videos.clear()
-    global checkVar, select
-    i = 0;
+    global checkVar, selectVar
+    i = 0
     print("学段编码：" + pha[phasesSelect.get()])
     print("年级编码：" + grad[gradesSelect.get()])
     print("科目编码：" + subj[subjectsSelect.get()])
@@ -122,16 +123,14 @@ def load():
                 i += 1
                 listBox.insert(tk.END, str(i) + "、" + video['package_name'])
 
-    select = tk.StringVar()
-    select.set('共获取到：%d个视频,已选中0个' % len(videos))
-    '''
-        不知道为什么这里不能正常显示值？？
-    '''
-    tip = tk.Label(myWindow, textvariable=select, bg='#DA70D6', fg="white")
+    selectVar = tk.StringVar()
+    selectVar.set('共获取到：%d个视频,已选中0个' % len(videos))
+
+    tip = tk.Label(myWindow, textvariable=selectVar, bg='#DA70D6', fg="white", font=('Arial', 12))
     tip.place(x=200, y=460)
 
     checkVar = tk.IntVar()
-    checkVar.set(0)
+
     selectAll = tk.Checkbutton(myWindow, text="选中所有视频", variable=checkVar,
                                onvalue=1, offvalue=0, height=1, command=selectAllItem)
     selectAll.place(x=250, y=490)
@@ -157,28 +156,39 @@ def downLoadVideo():
             t = time.gmtime()
             print("您选择的文件是：" + downPath)
             downPath = os.path.join(downPath, time.strftime("video-%Y-%m-%d-%H-%M-%S"))
-            # 显示下载进度UI界面
-            showDownUI()
+            run()
+
         else:
             print("取消了下载")
 
-
+# 开启UI更新、以及下载视频的线程
 def run():
-    global total_size,temp_size,percent
+    global total_size,temp_size,percent,currVar,var_progress_bar_percent,speedSecond,var_progress_bar_percent
+
     total_size = 0
+    #
     temp_size = 0
+
     percent = 0
+    #下载速度
+    speedSecond = '0kb/s'
+    currVar = tk.StringVar()
+    var_progress_bar_percent = tk.StringVar()
+    # 显示下载进度界面
+    downWindowThread = threading.Thread(target=showDownUI)
+    #downWindowThread.setDaemon(True)
+    downWindowThread.start()
     # 下载线程
     dowmThread = threading.Thread(target=downVideo)
-    # dowmThread.setDaemon(True)
+    #dowmThread.setDaemon(True)
     dowmThread.start()
-
     # UI更新线程
     UiThread = threading.Thread(target=flushUi)
-    # UiThread.setDaemon(True)
+    #UiThread.setDaemon(True)
     UiThread.start()
 
     timeThread = threading.Thread(target=flushTime)
+    #timeThread.setDaemon(True)
     timeThread.start()
 '''
     UI界面刷新（更新下载进度、当前下载视频内容）
@@ -191,31 +201,25 @@ def flushTime():
         time.sleep(1)
 
 
-def flushUi():
-    global total_size,temp_size
-    top.update()
-    top.deiconify()
-    var_progress_bar_percent = tk.StringVar()
-    var_progress_bar_percent.set('00.00 %')
-    # 百分比标签
-    label_progress_bar_percent = tk.Label(top, textvariable=var_progress_bar_percent, fg='#F5F5F5', bg='#535353')
 
-    label_progress_bar_percent.place(relx=0.89, rely=0.4, anchor=tk.CENTER)
+def flushUi():
+    global total_size,temp_size,speedSecond,var_progress_bar_percent
 
     while True and not closeWindow:
         hour = int(percent / 3600)
         minute = int(percent / 60) - hour * 60
         second = percent % 60
-        if total_size !=0:
+        if total_size != 0:
             # 计算绿线的距离
             green_length = int(500 * temp_size/ total_size)
             # 画定义好的长方体
             canvas_progress_bar.coords(canvas_shape, (0, 0, green_length, 25))
             # 设置时间
-            canvas_progress_bar.itemconfig(canvas_text, text='已用时间：%02d:%02d:%02d' % (hour, minute, second))
+            canvas_progress_bar.itemconfig(canvas_text, text='已用时间：%02d:%02d:%02d 当前任务进度：%0.2f%%(下载速率：%s)' %
+                                                             (hour, minute, second,100*temp_size/ total_size,speedSecond))
             # 设置百分比
             var_progress_bar_percent.set('%0.2f %%' % (100*temp_size/ total_size))
-            time.sleep(0.1)
+            time.sleep(0.05)
             # print("UI的done:" + str(done))
 
 
@@ -225,20 +229,19 @@ def flushUi():
 
 
 def downVideo():
-    global total_size,temp_size, closeWindow
+    global total_size,temp_size, closeWindow,top,currVar,done,speedSecond
     temp_size = 0
     os.mkdir(downPath)
+
     header = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.13 Safari/537.36",
         "Referer": "http://jiaoxue.ahedu.cn/index.html"
     }
-    currVar = tk.StringVar()
-    print(selectIndexs)
+
+
     for index, item in enumerate(selectIndexs):
         currVar.set("共有%d个任务,当前下载第%d个视频:%s" % (
             len(selectIndexs), (index + 1), videos[selectIndexs[index]]['package_name']))
-        cu = tk.Label(top, text=currVar.get(), bg="white", fg="green", font=('Arial', 13))
-        cu.place(x=20, y=20)
 
         fileName = "第%s课时-%s-%s-%s-%s" % (
             videos[item]['class_period'],
@@ -260,17 +263,45 @@ def downVideo():
         print(currPath)
         if not os.path.exists(currPath):
             os.makedirs(currPath)
+        # 请求开始的时间
+        start_time = time.time()
+        # 上秒的下载大小
+        last_size = 0
         with open(currPath + '\\' + fileName + "." + videos[item]['url'].split('.')[-1], 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024*5):
+
+            for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     temp_size += len(chunk)
                     f.write(chunk)
                     f.flush()
-                    sys.stdout.write(
-                        "\r[%s%s] %d%%" % ('█' * done, ' ' * (50 - done), 100 * temp_size / total_size))
-                    sys.stdout.flush()
-                    done = int(50 * temp_size / total_size)
-                    # print("下载的done:"+str(done))
+                    # sys.stdout.write(
+                    #     "\r[%s%s] %d%%" % ('█' * done, ' ' * (50 - done), 100 * temp_size / total_size))
+                    # sys.stdout.flush()
+                    done = int(( temp_size / total_size) *100)
+
+                    if time.time() - start_time > 1:
+                        # 重置开始时间
+                        start_time = time.time()
+                        # 每秒的下载量
+                        speed = temp_size - last_size
+
+                        # KB级下载速度处理
+                        if 0 <= speed < (1024 ** 2):
+                            speedSecond = '%.2fKB/s' % (speed / 1024)
+
+                        # MB级下载速度处理
+                        elif (1024 ** 2) <= speed < (1024 ** 3):
+                            speedSecond = '%.2fMB/s'% (speed / (1024 ** 2) )
+
+                        # GB级下载速度处理
+                        elif (1024 ** 3) <= speed < (1024 ** 4):
+                            speedSecond = '%.2fGB/s' % (speed / (1024 ** 3))
+                        # TB级下载速度处理
+                        else:
+                            speedSecond = '%.2f TB/s' % (speed / (1024 ** 4))
+                        # 重置以下载大小
+                        last_size = temp_size
+                        #print(speedSecond)
                     if closeWindow:
                         print("用户取消下载")
                         return
@@ -294,19 +325,23 @@ def on_closing():
     关闭主窗口时
 '''
 def on_closing2():
-    global closeWindow
-
-    if closeWindow and messagebox.askyesno("Quit", "关闭窗口将会取消下载任务！确认要关闭窗口吗？"):
-        top.destroy()
+    global closeWindow,top
+    flag = False
+    if closeWindow :
+        flag =messagebox.askyesno("Quit", "关闭窗口将会取消下载任务！确认要关闭窗口吗？")
+    else:
+        flag = messagebox.askyesno("Quit", "确认要退出程序吗？")
+    if flag:
         myWindow.destroy()
-    elif messagebox.askyesno("Quit", "确认要退出程序吗？"):
-        myWindow.destroy()
+    try:
         top.destroy()
+    except:
+        print("窗口未定义")
 
 
 def showDownUI():
-    global canvas_progress_bar, sum_length, canvas_shape, canvas_text, closeWindow
-
+    global canvas_progress_bar, canvas_shape, canvas_text, closeWindow,top
+    top = tk.Tk()
     top.title('下载进程')
     closeWindow = False
     screenwidth = top.winfo_screenwidth()
@@ -320,17 +355,27 @@ def showDownUI():
     # 画一个进度条
     canvas_progress_bar = tk.Canvas(top, width=sum_length, height=20)
     # 创建绿色的长方体 （0,0）宽0 高25
-    canvas_shape = canvas_progress_bar.create_rectangle(0, 0, 0, 25, fill='green')
+    canvas_shape = canvas_progress_bar.create_rectangle(0, 0, 0, 25, fill='blue')
     # 创建文字（时间）
-    canvas_text = canvas_progress_bar.create_text(200, 4, anchor=tk.NW)
+    canvas_text = canvas_progress_bar.create_text(100, 4, anchor=tk.NW)
     # 进度条添加文字
     canvas_progress_bar.itemconfig(canvas_text, text='已用时间：00:00:00',fill='red')
     # 设置进度条位置
     canvas_progress_bar.place(relx=0.45, rely=0.4, anchor=tk.CENTER)
-    # 开启UI更新、以及下载视频的线程
-    run()
+
+    cu = tk.Label(top, text=currVar.get(), bg="white", fg="green", font=('Arial', 13))
+    cu.place(x=20, y=20)
+
+   # var_progress_bar_percent.set('00.00 %')
+    var_progress_bar_percent.set('')
+    # 百分比标签  不能正常显示 ！！！
+    label_progress_bar_percent = tk.Label(top, text=var_progress_bar_percent.get(),fg='#F5F5F5', bg='#535353')
+    label_progress_bar_percent.place(relx=0.89, rely=0.4, anchor=tk.CENTER)
+
     top.protocol('WM_DELETE_WINDOW', on_closing)
+
     top.mainloop()
+
 
 
 '''
@@ -339,9 +384,10 @@ def showDownUI():
 
 
 def listBoxMouseClick(event):
+    global  selectVar
     # 如果选中大于0
     if len(videos) > 0:
-        select.set('共获取到：%d个视频,已选中%d个' % (len(videos), len(listBox.curselection())))
+        selectVar.set('共获取到：%d个视频,已选中%d个' % (len(videos), len(listBox.curselection())))
         # tip = tk.Label(myWindow, text=selectVar.get(), font=('Arial', 12), bg='green', fg="white")
         # tip.place(x=200, y=460)
 
@@ -577,15 +623,13 @@ def editionBox():
     editionsSelect.place(x=260, y=180)
     editionsSelect.current(len(edit.keys()) - 1)
 
-
 if __name__ == '__main__':
 
     # 默认没有关闭窗口
     closeWindow = False
     videos = []
-    # 创建窗口
-    top = tk.Tk()
-    top.withdraw()
+
+
     # 初始化Tk()
     myWindow = tk.Tk()
     # 读取解析文件
@@ -596,8 +640,7 @@ if __name__ == '__main__':
     initWindow()
     # 初始化窗口控件
     initUI()
-    # 设置关闭事件
-    myWindow.protocol('WM_DELETE_WINDOW', on_closing2)
+
     # 进入消息循环
     myWindow.mainloop()
     # pyinstaller -F -w -i i.ico main.py -p D:\pyCode\video\venv\Lib\site-packages

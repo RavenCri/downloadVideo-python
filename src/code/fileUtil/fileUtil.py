@@ -10,4 +10,26 @@ def readFile(fileName):
     return jstr
 
 
+import tkinter
 
+
+from tkinter import ttk, messagebox
+
+def click():
+    select = tkinter.StringVar()
+    select.set("dd")
+    label = tkinter.Label(l, textvariable=select, font=('Arial', 12), bg='green', fg="white")
+    label.place(x=100, y=100)
+
+    window = tkinter.Tk()
+    window.title('new window')
+    # 为什么 label取不到数据
+    label2 = tkinter.Label(window, textvariable=select, font=('Arial', 12), bg='green', fg="white")
+    label2.place(x=100, y=100)
+    window.mainloop()
+if __name__ == '__main__':
+    print('%.2fMB/s', (20480 / (1024 ** 2)))
+    l = tkinter.Tk()
+    bt = tkinter.Button(l, text ="下载视频", font=('Arial', 15),command = click)
+    bt.place(x=50,y=50)
+    l.mainloop()
