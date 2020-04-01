@@ -1,0 +1,725 @@
+{
+    "GLOBAL_PHASES":[{
+        "name": "全部",
+        "code": "00",
+        "actived": true
+    }, {
+        "code": "03",
+        "name": "小学"
+    }, {
+        "code": "04",
+        "name": "初中"
+    }, {
+        "code": "05",
+        "name": "高中"
+    }],
+    "GLOBAL_GRADES":{
+        "10": {
+            "code": "10",
+            "name": "高一年级",
+            "phaseCode": "05",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["01", "07"]
+            }, {
+                "subjectCode": "03",
+                "editions": ["07", "01", "23"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["06", "14"]
+            }, {
+                "subjectCode": "05",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "06",
+                "editions": ["01", "90"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20"]
+            }, {
+                "subjectCode": "102",
+                "editions": ["63", "08"]
+            }, {
+                "subjectCode": "103",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "12",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "13",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "14",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "26",
+                "editions": ["30"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }]
+        },
+        "11": {
+            "code": "11",
+            "name": "高二年级",
+            "phaseCode": "05",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["01", "07"]
+            }, {
+                "subjectCode": "03",
+                "editions": ["07", "01", "23"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["06", "14"]
+            }, {
+                "subjectCode": "05",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "06",
+                "editions": ["01", "90"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20"]
+            }, {
+                "subjectCode": "102",
+                "editions": ["63", "08"]
+            }, {
+                "subjectCode": "103",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "12",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "13",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "14",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "26",
+                "editions": ["30"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }]
+        },
+        "01": {
+            "code": "01",
+            "name": "一年级",
+            "phaseCode": "03",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["996", "01", "07"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["14", "06", "01", "55"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20", "01"]
+            }, {
+                "subjectCode": "19",
+                "editions": ["12", "08", "50", "995", "997"]
+            }, {
+                "subjectCode": "239",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }]
+        },
+        "02": {
+            "code": "02",
+            "name": "二年级",
+            "phaseCode": "03",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["996", "01", "07"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["14", "06", "01", "55"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20", "01"]
+            }, {
+                "subjectCode": "19",
+                "editions": ["12", "08", "50", "997"]
+            }, {
+                "subjectCode": "239",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }]
+        },
+        "03": {
+            "code": "03",
+            "name": "三年级",
+            "phaseCode": "03",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["996", "01", "07"]
+            }, {
+                "subjectCode": "03",
+                "editions": ["01", "09"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["14", "06", "01", "55"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20", "01"]
+            }, {
+                "subjectCode": "19",
+                "editions": ["12", "08", "50", "997"]
+            }, {
+                "subjectCode": "239",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "26",
+                "editions": ["93"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }]
+        },
+        "04": {
+            "code": "04",
+            "name": "四年级",
+            "phaseCode": "03",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["996", "01", "07"]
+            }, {
+                "subjectCode": "03",
+                "editions": ["01", "09"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["14", "06", "01", "55"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20", "01"]
+            }, {
+                "subjectCode": "19",
+                "editions": ["12", "08", "50", "997"]
+            }, {
+                "subjectCode": "239",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "26",
+                "editions": ["93"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }]
+        },
+        "05": {
+            "code": "05",
+            "name": "五年级",
+            "phaseCode": "03",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["996", "01", "07"]
+            }, {
+                "subjectCode": "03",
+                "editions": ["01", "09"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["14", "06", "01", "55"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20", "01"]
+            }, {
+                "subjectCode": "19",
+                "editions": ["12", "08", "50", "997"]
+            }, {
+                "subjectCode": "239",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "26",
+                "editions": ["93"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }]
+        },
+        "06": {
+            "code": "06",
+            "name": "六年级",
+            "phaseCode": "03",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["996", "01", "07"]
+            }, {
+                "subjectCode": "03",
+                "editions": ["01", "09"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["14", "06", "01", "55"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20", "01"]
+            }, {
+                "subjectCode": "19",
+                "editions": ["12", "08", "50", "997"]
+            }, {
+                "subjectCode": "239",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "26",
+                "editions": ["93"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }]
+        },
+        "07": {
+            "code": "07",
+            "name": "七年级",
+            "phaseCode": "04",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["01", "13", "07"]
+            }, {
+                "subjectCode": "03",
+                "editions": ["01", "23", "02"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["06", "14", "01", "55"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20", "01"]
+            }, {
+                "subjectCode": "12",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "130",
+                "editions": ["01", "07", "08"]
+            }, {
+                "subjectCode": "14",
+                "editions": ["01", "16", "97"]
+            }, {
+                "subjectCode": "239",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "26",
+                "editions": ["34"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }]
+        },
+        "08": {
+            "code": "08",
+            "name": "八年级",
+            "phaseCode": "04",
+            "childrenCodes": [{
+                "subjectCode": "01",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "02",
+                "editions": ["01", "13", "07"]
+            }, {
+                "subjectCode": "03",
+                "editions": ["01", "23", "02"]
+            }, {
+                "subjectCode": "04",
+                "editions": ["06", "14", "01", "55"]
+            }, {
+                "subjectCode": "05",
+                "editions": ["01", "07", "13", "994"]
+            }, {
+                "subjectCode": "09",
+                "editions": ["11", "20", "01"]
+            }, {
+                "subjectCode": "12",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "130",
+                "editions": ["01", "07", "08"]
+            }, {
+                "subjectCode": "14",
+                "editions": ["01", "16", "97"]
+            }, {
+                "subjectCode": "239",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "25",
+                "editions": ["01"]
+            }, {
+                "subjectCode": "26",
+                "editions": ["34"]
+            }, {
+                "subjectCode": "98",
+                "editions": ["998"]
+            }, {
+                "subjectCode": "99",
+                "editions": ["999"]
+            }]
+        }
+    },
+    "GLOBAL_EDITIONS":{
+        "11": {
+            "code": "11",
+            "name": "人民美术出版社"
+        },
+        "12": {
+            "code": "12",
+            "name": "教育科学出版社"
+        },
+        "13": {
+            "code": "13",
+            "name": "上海科学技术出版社"
+        },
+        "14": {
+            "code": "14",
+            "name": "湖南文艺出版社"
+        },
+        "16": {
+            "code": "16",
+            "name": "湖南教育出版社"
+        },
+        "20": {
+            "code": "20",
+            "name": "湖南美术出版社"
+        },
+        "23": {
+            "code": "23",
+            "name": "译林出版社"
+        },
+        "30": {
+            "code": "30",
+            "name": "广东教育出版社"
+        },
+        "34": {
+            "code": "34",
+            "name": "科学出版社"
+        },
+        "50": {
+            "code": "50",
+            "name": "大象出版社"
+        },
+        "55": {
+            "code": "55",
+            "name": "广东花城出版社"
+        },
+        "63": {
+            "code": "63",
+            "name": "广东科技出版社"
+        },
+        "90": {
+            "code": "90",
+            "name": "山东科学技术出版社"
+        },
+        "93": {
+            "code": "93",
+            "name": "电子工业出版社"
+        },
+        "97": {
+            "code": "97",
+            "name": "商务印书馆"
+        },
+        "994": {
+            "code": "994",
+            "name": "上海科技-广东教育出版社"
+        },
+        "995": {
+            "code": "995",
+            "name": "人民教育、湖北出版社"
+        },
+        "996": {
+            "code": "996",
+            "name": "江苏凤凰教育出版社"
+        },
+        "997": {
+            "code": "997",
+            "name": "广东教育、科技出版社"
+        },
+        "998": {
+            "code": "998",
+            "name": "德育与心理健康"
+        },
+        "999": {
+            "code": "999",
+            "name": "综合实践活动"
+        },
+        "01": {
+            "code": "01",
+            "name": "人民教育出版社"
+        },
+        "02": {
+            "code": "02",
+            "name": "外语教学与研究出版社"
+        },
+        "07": {
+            "code": "07",
+            "name": "北京师范大学出版社"
+        },
+        "08": {
+            "code": "08",
+            "name": "江苏教育出版社"
+        },
+        "09": {
+            "code": "09",
+            "name": "上海教育出版社"
+        },
+        "06": {
+            "code": "06",
+            "name": "人民音乐出版社"
+        }
+    },
+    "GLOBAL_SUBJECTS":{
+        "12": {
+            "code": "12",
+            "name": "历史",
+            "childrenCodes": ["01"]
+        },
+        "13": {
+            "code": "13",
+            "name": "生物",
+            "childrenCodes": ["01"]
+        },
+        "14": {
+            "code": "14",
+            "name": "地理",
+            "childrenCodes": ["01", "16", "97"]
+        },
+        "19": {
+            "code": "19",
+            "name": "科学",
+            "childrenCodes": ["12", "08", "50", "995","997"]
+        },
+        "25": {
+            "code": "25",
+            "name": "体育与健康",
+            "childrenCodes": ["01"]
+        },
+        "26": {
+            "code": "26",
+            "name": "信息技术",
+            "childrenCodes": ["93", "34", "30"]
+        },
+        "98": {
+            "code": "98",
+            "name": "专题教育",
+            "childrenCodes": ["998"]
+        },
+        "99": {
+            "code": "99",
+            "name": "综合实践活动",
+            "childrenCodes": ["999"]
+        },
+        "102": {
+            "code": "102",
+            "name": "通用技术",
+            "childrenCodes": ["30", "08"]
+        },
+        "103": {
+            "code": "103",
+            "name": "思想政治",
+            "childrenCodes": ["01"]
+        },
+        "130": {
+            "code": "130",
+            "name": "生物学",
+            "childrenCodes": ["01", "07", "08"]
+        },
+        "239": {
+            "code": "239",
+            "name": "道德与法治",
+            "childrenCodes": ["01"]
+        },
+        "01": {
+            "code": "01",
+            "name": "语文",
+            "childrenCodes": ["01"]
+        },
+        "02": {
+            "code": "02",
+            "name": "数学",
+            "childrenCodes": ["01", "996", "07", "13"]
+        },
+        "03": {
+            "code": "03",
+            "name": "英语",
+            "childrenCodes": ["01", "07","02", "09", "23"]
+        },
+        "04": {
+            "code": "04",
+            "name": "音乐",
+            "childrenCodes": ["14", "06", "01", "55"]
+        },
+        "09": {
+            "code": "09",
+            "name": "美术",
+            "childrenCodes": ["11", "20", "01"]
+        },
+        "05": {
+            "code": "05",
+            "name": "物理",
+            "childrenCodes": ["01", "07", "13", "994"]
+        },
+        "06": {
+            "code": "06",
+            "name": "化学",
+            "childrenCodes": ["01", "90"]
+        }
+    },
+    "AREAS":{
+        "1124": {
+            "code": "1124",
+            "name": "合肥市"
+        },
+        "1136": {
+            "code": "1136",
+            "name": "芜湖市"
+        },
+        "1146": {
+            "code": "1146",
+            "name": "蚌埠市"
+        },
+        "1155": {
+            "code": "1155",
+            "name": "淮南市"
+        },
+        "1163": {
+            "code": "1163",
+            "name": "马鞍山市"
+        },
+        "1171": {
+            "code": "1171",
+            "name": "淮北市"
+        },
+        "1177": {
+            "code": "1177",
+            "name": "铜陵市"
+        },
+        "1183": {
+            "code": "1183",
+            "name": "安庆市"
+        },
+        "1192": {
+            "code": "1192",
+            "name": "宿松县"
+        },
+        "1196": {
+            "code": "1196",
+            "name": "黄山市"
+        },
+        "1205": {
+            "code": "1205",
+            "name": "滁州市"
+        },
+        "1215": {
+            "code": "1215",
+            "name": "阜阳市"
+        },
+        "1225": {
+            "code": "1225",
+            "name": "宿州市"
+        },
+        "1232": {
+            "code": "1232",
+            "name": "六安市"
+        },
+        "1241": {
+            "code": "1241",
+            "name": "亳州市"
+        },
+        "1247": {
+            "code": "1247",
+            "name": "池州市"
+        },
+        "1253": {
+            "code": "1253",
+            "name": "宣城市"
+        },
+        "1257": {
+            "code": "1257",
+            "name": "广德县"
+        }
+    }
+    
+    
+
+}

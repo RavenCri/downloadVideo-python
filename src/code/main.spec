@@ -2,11 +2,11 @@
 
 block_cipher = None
 
-
-a = Analysis(['main.py'],
+path='D:\\pyCode\\video\\src\\'
+a = Analysis(['main.py','fileUtil/fileUtil.py'],
              pathex=['D:\\pyCode\\video\\venv\\Lib\\site-packages', 'D:\\pyCode\\video\\src\\code'],
              binaries=[],
-             datas=[],
+             datas=[(path+'\\rescouse','rescouse')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

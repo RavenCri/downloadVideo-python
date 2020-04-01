@@ -1,15 +1,15 @@
 from tkinter import messagebox
 from tkinter import ttk
 import tkinter.filedialog
-import json
-import os
 import time
 import requests
 import threading
 import tkinter as tk
 from tkinter import *
 
-from collections import Counter
+from httpreq.online import videoRescous,updateData
+from fileUtil.fileUtil import*
+
 def initWindow():
     global alignstr
     #设置窗口大小
@@ -25,6 +25,10 @@ def initWindow():
     myWindow.geometry(alignstr)
     # 设置窗口是否可变长、宽，True：可变，False：不可变
     myWindow.resizable(width=False, height=True)
+
+'''
+    选择周数将会触发重新读取视频json文件
+'''
 def wedFunc(wedSelect,wedMap):
     global  videoRescous
     #print((int(wedMap[wedSelect.get()]) +1))
@@ -38,20 +42,33 @@ def wedFunc(wedSelect,wedMap):
     gradesBox()
     subjectBox()
     editionBox()
+'''
+    选择学段后将会更新年级、科目、出版社
+'''
 def phasesFunc(phasesSelect):
     gradesBox()
     subjectBox()
     editionBox()
+'''
+    更新年级后将会更新科目、出版社
+'''
 def gradesFunc(gradesSelect):
     subjectBox()
     editionBox()
+'''
+    更新科目后将会更新出版社
+'''
 def subjectsFunc(subjectsSelect):
     editionBox()
+
+'''
+     当点击了选中所有视频
+'''
 def selectAllItem():
     global checkVar,videos
 
 
-    #print(checkVar.get())
+    # 如果之前的状态是没有选择，那么直接全选，否则全部取消选择
     if checkVar.get() == 0:
         checkVar.set(1)
         listBox.select_set(0, len(videos) - 1)
@@ -60,9 +77,13 @@ def selectAllItem():
     else:
         checkVar.set(0)
         listBox.select_clear(0, len(videos) - 1)
-        selectVar.set('共获取到：%d个视频,已选中%d个' % (len(videos), 0))
+        selectVar.set('共获取到：%d个视频,已选中    %d个' % (len(videos), 0))
         tip = tk.Label(myWindow, text=selectVar.get(), font=('Arial', 12), bg='green', fg="white")
     tip.place(x=200, y=460)
+
+'''
+    用于加载视频
+'''
 def load():
 
     #print(pha[phasesSelect.get()])
@@ -73,17 +94,16 @@ def load():
     videos.clear()
     global checkVar,selectVar
     i = 0;
-    print(pha[phasesSelect.get()])
-    print(grad[gradesSelect.get()])
-    print(subj[subjectsSelect.get()])
-    print(edit[editionsSelect.get()])
+    print("学段编码："+pha[phasesSelect.get()])
+    print("年级编码："+grad[gradesSelect.get()])
+    print("科目编码："+subj[subjectsSelect.get()])
+    print("出版编码："+edit[editionsSelect.get()])
 
+    #遍历加载好的视频
     for index,item in enumerate(videoRescous):
-        #print(video)
-        #print(video)
-
+        # 取出视频条目 是个json对象
         for video in videoRescous[item]:
-            print(video)
+            # 如果视频与所选择的项目匹配，则添加到列表框
             if (pha[phasesSelect.get()] == '00' or video['phase'] == pha[phasesSelect.get()]  ) and \
                (grad[gradesSelect.get()] == '00' or video['grade'].find(grad[gradesSelect.get()]) >= 0 ) and \
                (subj[subjectsSelect.get()] == '00' or video['subject'] == subj[subjectsSelect.get()]  ) and \
@@ -92,9 +112,7 @@ def load():
                i += 1
                listBox.insert(END,str(i)+"、"+video['package_name'])
     selectVar = tk.StringVar()
-
-
-    selectVar.set('共获取到：' + str(len(videos)) + '个视频,已选中0个')
+    selectVar.set('共获取到：' + str(len(videos)) + '个视频,已选中    0个')
     tip = tk.Label(myWindow, text =selectVar.get(),font=('Arial', 12),bg='green',fg="white")
     tip.place(x=200, y=460)
 
@@ -104,9 +122,9 @@ def load():
                      onvalue=1, offvalue=0, height=1,command=selectAllItem)
     selectAll.place(x=250,y=490)
 
-
-
-
+'''
+    点击下载视频触发
+'''
 def downLoadVideo():
     global selectIndexs,downPath
     selectIndexs = listBox.curselection()
@@ -115,27 +133,30 @@ def downLoadVideo():
         messagebox.showwarning('选中为空', '选中项为空，请先获取视频！')
         return
     else:
-
-        #filename = tkinter.filedialog.askopenfilename()
         downPath = tkinter.filedialog.askdirectory()
         downPath = downPath.replace('/', '\\')
         if downPath != '':
+            # 获取时间 生成文件夹保存视频
             t = time.gmtime()
             print("您选择的文件是：" + downPath)
             downPath = os.path.join(downPath,time.strftime("video-%Y-%m-%d-%H-%M-%S"))
-            show()
+            # 显示下载进度UI界面
+            showDownUI()
         else:
             print("取消了下载")
 def run():
-
-    dowmThread = threading.Thread(target=update_progress_bar)
+    # 下载线程
+    dowmThread = threading.Thread(target=downVideo)
     #dowmThread.setDaemon(True)
     dowmThread.start()
+    # UI更新线程
     UiThread = threading.Thread(target=UIFlush)
     #UiThread.setDaemon(True)
     UiThread.start()
 
-
+'''
+    UI界面刷新（更新下载进度、当前下载视频内容）
+'''
 def UIFlush():
     global done,top
     top.update()
@@ -163,7 +184,11 @@ def UIFlush():
         var_progress_bar_percent.set('%0.2f %%' % (done*2))
         time.sleep(1)
         #print("UI的done:" + str(done))
-def update_progress_bar():
+
+'''
+    用于下载视频
+'''
+def downVideo():
     global done,closeWindow
     os.mkdir(downPath)
     header = {
@@ -173,8 +198,6 @@ def update_progress_bar():
     currVar = tk.StringVar()
     print(selectIndexs)
     for index,item in enumerate(selectIndexs):
-
-
         currVar.set("共有%d个任务,当前下载第%d个视频:%s" % (
             len(selectIndexs), (index + 1), videos[selectIndexs[index]]['package_name']))
         cu = tk.Label(top, text=currVar.get(), bg="white", fg="green", font=('Arial', 13))
@@ -190,7 +213,7 @@ def update_progress_bar():
             #subjectsSelect.get(),
             contect['GLOBAL_EDITIONS'][videos[selectIndexs[index]]['edition']]['name'],
             #editionsSelect.get(),
-            videos[item]['package_name'].replace('?',''))
+            re.sub('[\/:*?"<>|]','-',videos[item]['package_name']))
         #print(fileName)
         r = requests.get(videos[item]['url'], headers=header, stream=True, verify=False)
         print("当前链接：" + videos[item]['url'])
@@ -220,17 +243,24 @@ def update_progress_bar():
     messagebox.showinfo("下载完成","您的任务已下载完毕~")
     top.withdraw()
     closeWindow = TRUE
-
+    # 下载完弹出下载文件夹 方便查看
     os.system("start explorer " + downPath.replace('/','\\'))
 
                    # sys.stdout.write(
                        # "\r[%s%s] %d%%" % ('█' * done, ' ' * (50 - done), 100 * temp_size / total_size))
                     #sys.stdout.flush()
+
+'''
+    关闭下载窗口时
+'''
 def on_closing():
     global closeWindow
     if messagebox.askyesno("Quit", "关闭窗口将会取消下载任务！确认要关闭窗口吗？"):
         top.withdraw()
         closeWindow = TRUE
+'''
+    关闭主窗口时
+'''
 def on_closing2():
     global closeWindow
 
@@ -241,7 +271,7 @@ def on_closing2():
         myWindow.destroy()
         top.destroy()
 
-def show():
+def showDownUI():
 
     global canvas_progress_bar,sum_length,canvas_shape,canvas_text,closeWindow
 
@@ -262,30 +292,24 @@ def show():
     # 已用时间
     canvas_text = canvas_progress_bar.create_text(292, 4, anchor=NW)
     canvas_progress_bar.itemconfig(canvas_text, text='已用时间：00:00:00')
-
-
     #设置位置
     canvas_progress_bar.place(relx=0.45, rely=0.4, anchor=CENTER)
-
-    # 按钮
-    #button_start = Button(top, text='开始', fg='#F5F5F5', bg='#7A7A7A', command=run, height=1, width=15, relief=GROOVE,
-                          #bd=2, activebackground='#F5F5F5', activeforeground='#535353')
-    #button_start.place(relx=0.45, rely=0.5, anchor=CENTER)
-
+    #开启UI更新、以及下载视频的线程
     run()
     top.protocol('WM_DELETE_WINDOW', on_closing)
     top.mainloop()
+'''
+    点击列表视频 同步更新选中个数
+'''
 def listBoxMouseClick(event):
    if len(videos) > 0:
-
-        selectVar.set('共获取到：%d个视频,已选中%d个' % (len(videos),len(listBox.curselection())))
+        selectVar.set('共获取到：%d个视频,已选中     %d个' % (len(videos),len(listBox.curselection())))
         tip = tk.Label(myWindow, text=selectVar.get(), font=('Arial', 12), bg='green', fg="white")
         tip.place(x=200, y=460)
+'''
+    用于更新窗口主要控件
+'''
 def initUI():
-
-    '''
-                 初始化事件
-    '''
 
     global phasesSelect, subjectsSelect, editionsSelect, gradesSelect, listBox,wedSelect,wedMap
     wed = tk.Label(myWindow, text='周数：', font=('Arial', 12))
@@ -297,23 +321,23 @@ def initUI():
         '第四周3.23-3.27': "3",
         '第五周3.30-4.3': "4"
     }
-    recousePath = os.path.join(os.path.abspath('./'), "rescouse")
+    recousePath = os.path.join(os.path.abspath('../'), "rescouse")
     files = os.listdir(recousePath)
     fileNum = len(files)
-
+    # 因为目前只有五周的课程，后面应该显示更新后的课程
     while fileNum > 6:
         key = '第%d周' % (fileNum - 1)
         val = ('%d' % (fileNum-2))
-        wedMap[key]  = val
+        wedMap[key] = val
         fileNum -= 1
 
     wed.place(x=200, y=20)
     wedSelect = ttk.Combobox(myWindow)
     wedSelect.pack()
-    wedSelect.bind("<<ComboboxSelected>>", lambda event: wedFunc(wedSelect,wedMap))  # #给下拉菜单绑定事件
-
+    wedSelect.bind("<<ComboboxSelected>>", lambda event: wedFunc(wedSelect,wedMap))
     wedSelect['value'] = list(wedMap.keys())
     wedSelect.place(x=260, y=20)
+    #默认选中最后一个
     wedSelect.current(len(wedSelect['value'] )-1)
 
 
@@ -326,7 +350,9 @@ def initUI():
     phasesSelect = ttk.Combobox(myWindow)
     phasesSelect.pack()
     phasesSelect.bind("<<ComboboxSelected>>", lambda event: phasesFunc(phasesSelect))  # #给下拉菜单绑定事件
+    # 执行初始化更新
     phasesBox()
+
     '''
            初始化年级
     '''
@@ -335,8 +361,11 @@ def initUI():
     gradesSelect = ttk.Combobox(myWindow)
     gradesSelect.pack()
     gradesSelect.bind("<<ComboboxSelected>>", lambda event: gradesFunc(gradesSelect))  # #给下拉菜单绑定事件
+    # 执行初始化更新
     gradesBox()
-
+    '''
+             初始化科目
+    '''
     subjects = tk.Label(myWindow, text='学科：', font=('Arial', 12))
     subjects.place(x=200, y=140)
     subjectsSelect = ttk.Combobox(myWindow)
@@ -344,12 +373,13 @@ def initUI():
     subjectsSelect.bind("<<ComboboxSelected>>", lambda event: subjectsFunc(subjectsSelect))
     subjectBox()
 
+    '''
+         初始化出版社
+    '''
     editions = tk.Label(myWindow, text='出版社：', font=('Arial', 12))
     editions.place(x=200, y=180)
     editionsSelect = ttk.Combobox(myWindow)
     editionsSelect.pack()
-
-
     editionBox()
 
     button = tk.Button(myWindow, text ="获取视频", font=('Arial', 12),command = load,bg="white")
@@ -373,20 +403,23 @@ def initUI():
     auther = tk.Label(myWindow, text='@Raven版权所有（2020）', font=('华文行楷', 12),bg='blue',fg="white")
     auther.place(x=220, y=570)
 
+'''
+    选择学段
+'''
 def phasesBox():
-
-
-
     global pha
+    # 用于保存要显示的学段
     pha = {}
+    # 把科目的名字和代码编号保存到pha变量
     for ph in contect['GLOBAL_PHASES']:
         pha[ph['name']] =ph['code']
     phasesSelect['value'] = list(pha.keys())
-
     phasesSelect.place(x = 260,y = 60)
     phasesSelect.current(0)
 
-
+'''
+    用于年级因级联操作带来的更新
+'''
 def gradesBox():
 
 
@@ -396,25 +429,22 @@ def gradesBox():
     grad['全部年级'] = '00'
     for gr in contect['GLOBAL_GRADES'].keys():
         #print(contect['GLOBAL_GRADES'][gr]['phaseCode'])
-        # 如果是小学的年级 03 则添加进去
+        # 如果是学段满足 ，则添加该年级 到要显示的列表
         if contect['GLOBAL_GRADES'][gr]['phaseCode'] == pha[phasesSelect.get()] or pha[phasesSelect.get()] == '00':
-            # 这里应该是年级代码 contect['GLOBAL_GRADES'][gr]['code']，而不能是contect['GLOBAL_GRADES'][gr]['phaseCode']
+            # 保存年级名称和它的编码
             grad[contect['GLOBAL_GRADES'][gr]['name']] = contect['GLOBAL_GRADES'][gr]['code']
-            #grad['childrenCodes'] = contect['GLOBAL_GRADES'][gr]['childrenCodes']
 
     gradList = list(grad.keys())
     gradesSelect['value'] = gradList
     gradesSelect.place(x = 260,y = 100)
     gradesSelect.current(0)
-
+'''
+       初始化科目
+'''
 def subjectBox():
-    '''
-           初始化科目
-    '''
+
     global subj
-
-
-
+    # 用于保存要显示的科目
     subj = {}
     subj['全部科目'] = '00'
     show_subj_code={}
@@ -423,26 +453,24 @@ def subjectBox():
     # 找出该年级有的所有科目
     for gradChid in contect['GLOBAL_GRADES']:
         #print(contect['GLOBAL_GRADES'][gradChid]['name'] )
-        # 如果 学科 与选择的年级一致
+        # 如果年级匹配 或者 学段匹配 则 保存 应该出现的科目
         if (contect['GLOBAL_GRADES'][gradChid]['name']  == gradesSelect.get()  or grad[gradesSelect.get()] == '00') and \
             contect['GLOBAL_GRADES'][gradChid]['phaseCode'] == pha[phasesSelect.get()]  :
-            print(contect['GLOBAL_GRADES'][gradChid])
+            #print(contect['GLOBAL_GRADES'][gradChid])
             for g in contect['GLOBAL_GRADES'][gradChid]['childrenCodes']:
                 #print(contect['GLOBAL_GRADES'][gradChid]['phaseCode'])
                 # 年级代码  阶段代码
                 show_subj_code[ g['subjectCode'] ] = contect['GLOBAL_GRADES'][gradChid]['phaseCode']
-    #print("科目编号："+str(show_subj_code))
-    print("显示的科目"+str(show_subj_code))
-    print(show_subj_code.keys())
+
+
 
     for su in contect['GLOBAL_SUBJECTS'].keys():
 
-        # 如果科目代码相同 且 科目所在的阶段
+        # 如果科目编码相同 或者选中了所有科目 ，则把科目添加到要显示的科目里
         if (contect['GLOBAL_SUBJECTS'][su]['code'] in show_subj_code.keys() or pha[phasesSelect.get()] == '00') :
-
                 subj[contect['GLOBAL_SUBJECTS'][su]['name']] = contect['GLOBAL_SUBJECTS'][su]['code']
-        # 如果科目包括在这个年级里
 
+    print("显示的科目" + str(list(subj.keys())))
     subjList = list(subj.keys())
     subjectsSelect['value'] = subjList
     subjectsSelect.place(x = 260,y = 140)
@@ -454,35 +482,35 @@ def editionBox():
     '''
 
     global edit
+    # 用于保存要显示的出版社
     edit = {}
-
     show_edit_code = []
-    print("年级代码" + grad[gradesSelect.get()])
-    print("学科代码" + subj[subjectsSelect.get()])
     # 如果不是全部科目的话，筛选出该科目的所有出版社
     if subj[subjectsSelect.get()] !='00' :
         # 找出该学科有的所有出版社
         for gradChid in contect['GLOBAL_SUBJECTS']:
-            #print(contect['GLOBAL_SUBJECTS'][gradChid])
 
+            # 如果学科编码与当前选择的一样，则取出它的子孩子编码 即为 该科目的所有出版社
             if contect['GLOBAL_SUBJECTS'][gradChid]['code'] == subj[subjectsSelect.get()]:
                     print(contect['GLOBAL_SUBJECTS'][gradChid])
                     show_edit_code = contect['GLOBAL_SUBJECTS'][gradChid]['childrenCodes']
         print("出版社" + str(show_edit_code))
     #print(grad)
-
+    # 找到所有出版社
     for ed in contect['GLOBAL_EDITIONS'].keys():
-
+        # 匹配出版社code，若 再要显示的列表里，则添加进去
         if (contect['GLOBAL_EDITIONS'][ed]['code'] in show_edit_code \
                 or subj[subjectsSelect.get()] == '00'):
+            # 保存出版社的名字和编码即可
             edit[contect['GLOBAL_EDITIONS'][ed]['name']] = contect['GLOBAL_EDITIONS'][ed]['code']
 
-    # 如果出版社的内容为空 删除该出版社
+    #用于保存视频内容不为空的出版社
     temp = []
     for e in list(edit.keys()):
         for i in videoRescous:
             for index in videoRescous[i]:
-                # 遍历所有 判断该出版社是否有视频  grad[gradesSelect.get()] == '00' 这个条件会放进来一些数据
+                # 遍历所有 判断该出版社是否有视频 , 如果有的话放到临时列表里 等会遍历所有出版社，如果哪个出版社不在这个列表里
+                # 则说明他没有视频文件，删除掉他。
                 if (pha[phasesSelect.get()] == '00' or index['phase'].find(pha[phasesSelect.get()] ) >= 0) and \
                     (grad[gradesSelect.get()] == '00' or index['grade'].find(grad[gradesSelect.get()] ) >= 0) and \
                     index['subject'] == subj[subjectsSelect.get()] and \
@@ -492,6 +520,7 @@ def editionBox():
                         continue;
    # 遍历当前要显示的出版社
     for t in list(edit.keys()):
+        # 如果 不在该列表里 并且选择的科目不是全部 才删除
         if (t not in temp and subj[subjectsSelect.get()] != '00') :
             #print(t)
             del (edit[t])
@@ -502,61 +531,27 @@ def editionBox():
     editionsSelect.place(x = 260,y = 180)
     editionsSelect.current(len(edit.keys())-1)
 
-def updateData():
-    global videoRescous
-    url = 'http://jiaoxue.ahedu.cn/static_zxjx2020/js/json%d.js?version=20200331'
-    recousePath = os.path.join(os.path.abspath('./'), "rescouse")
-    files= os.listdir(recousePath)
-    filesNum = len(files)
-    header = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.13 Safari/537.36",
-        "Referer": "http://jiaoxue.ahedu.cn/index.html"
-    }
-    while TRUE:
-        r = requests.get((url % filesNum), headers=header, stream=True, verify=False)
-        json_str = r.content.decode()
-        json_str= json_str.split("=", 1)[1]
-        json_str = json.loads(json_str)
-        if len(json_str) == 0:
-            break
-        newJSON={
-            str(filesNum):json_str
-        }
-        # 字典转字符串
-        #newJSON = json.dumps(newJSON)
-        # 字符串 转 字典
-        #newJSON = json.loads(newJSON)
-
-        with open(recousePath+("\\video%d.json" % filesNum), 'w',encoding = 'utf-8') as f:
-            json.dump(newJSON,f,ensure_ascii=False,indent=4)
-        filesNum += 1
-    videoRescous = readFile("video%d.json" % (filesNum-1))
-
-def readFile(fileName):
-    print(os.path.abspath('./')+'\\rescouse\\'+fileName)
-    fileName = os.path.abspath('./')+'\\rescouse\\'+fileName
-    with open(fileName,'r',encoding='utf-8',errors='ignore') as f:
-        fstr = f.read()
-        jstr = json.loads(fstr)
-        #print(jstr)
-    return jstr
-
-done = 0
-closeWindow = FALSE
-
-videos = []
-top = Tk()
-
-top.withdraw()
-# 初始化Tk()
-myWindow = tk.Tk()
-videoRescous = {}
-contect = readFile("contect.json")
-updateData()
-initWindow()
-initUI()
-
-myWindow.protocol('WM_DELETE_WINDOW', on_closing2)
-# 进入消息循环
-myWindow.mainloop()
-# pyinstaller -F -w -i i.ico main.py -p D:\pyCode\video\venv\Lib\site-packages
+if __name__ == '__main__':
+    # 默认下载进度
+    done = 0
+    # 默认没有关闭窗口
+    closeWindow = FALSE
+    videos = []
+    # 创建窗口
+    top = Tk()
+    top.withdraw()
+    # 初始化Tk()
+    myWindow = tk.Tk()
+    # 读取解析文件
+    contect = readFile("contect.json")
+    # 获取更新数据并返回最新一周的数据
+    videoRescous = updateData()
+    # 初始化主窗口
+    initWindow()
+    # 初始化窗口控件
+    initUI()
+    # 设置关闭事件
+    myWindow.protocol('WM_DELETE_WINDOW', on_closing2)
+    # 进入消息循环
+    myWindow.mainloop()
+    # pyinstaller -F -w -i i.ico main.py -p D:\pyCode\video\venv\Lib\site-packages
