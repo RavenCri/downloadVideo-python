@@ -85,7 +85,7 @@ def subjectsFunc(subjectsSelect):
 
 def selectAllItem():
     global checkVar, videos,selectVar
-    print(checkVar.get())
+    #print(checkVar.get())
     # 如果之前的状态是没有选择，那么直接全选，否则全部取消选择
     if checkVar.get() == 0:
         listBox.select_clear(0, len(videos) - 1)
