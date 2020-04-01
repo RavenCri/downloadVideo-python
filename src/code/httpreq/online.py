@@ -2,12 +2,10 @@ import requests
 from fileUtil.fileUtil import *
 
 videoRescous = {}
-
 def updateData():
     '''
       用来获取更新
     '''
-    global videoRescous
     url = 'http://jiaoxue.ahedu.cn/static_zxjx2020/js/json%d.js?version=20200331'
     recousePath = os.path.join(os.path.abspath('../'), "rescouse")
     files= os.listdir(recousePath)

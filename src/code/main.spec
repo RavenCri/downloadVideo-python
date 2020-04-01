@@ -2,11 +2,11 @@
 
 block_cipher = None
 
-path='D:\\pyCode\\video\\src\\'
-a = Analysis(['main.py','fileUtil/fileUtil.py'],
+
+a = Analysis(['main.py'],
              pathex=['D:\\pyCode\\video\\venv\\Lib\\site-packages', 'D:\\pyCode\\video\\src\\code'],
              binaries=[],
-             datas=[(path+'\\rescouse','rescouse')],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False , icon='i.ico')
+          console=True , icon='i.ico')

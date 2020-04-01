@@ -10,5 +10,4 @@ def readFile(fileName):
     return jstr
 
 
-if __name__ == '__main__':
-    print("file")
+
