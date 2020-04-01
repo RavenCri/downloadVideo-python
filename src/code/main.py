@@ -217,7 +217,7 @@ def flushUi():
             # 设置时间
             canvas_progress_bar.itemconfig(canvas_text, text='已用时间：%02d:%02d:%02d 当前任务进度：%0.2f%%(下载速率：%s)' %
                                                              (hour, minute, second,100*temp_size/ total_size,speedSecond))
-            # 设置百分比
+            # 设置百分比 这个无效果 原因待知
             var_progress_bar_percent.set('%0.2f %%' % (100*temp_size/ total_size))
             time.sleep(0.05)
             # print("UI的done:" + str(done))
@@ -278,13 +278,12 @@ def downVideo():
                     #     "\r[%s%s] %d%%" % ('█' * done, ' ' * (50 - done), 100 * temp_size / total_size))
                     # sys.stdout.flush()
                     done = int(( temp_size / total_size) *100)
-
+                    # 按秒统计下载速度
                     if time.time() - start_time > 1:
                         # 重置开始时间
                         start_time = time.time()
-                        # 每秒的下载量
+                        # 每秒的下载量 （现在已下载的字节数 - 上一秒下载的字节数）
                         speed = temp_size - last_size
-
                         # KB级下载速度处理
                         if 0 <= speed < (1024 ** 2):
                             speedSecond = '%.2fKB/s' % (speed / 1024)
@@ -292,7 +291,6 @@ def downVideo():
                         # MB级下载速度处理
                         elif (1024 ** 2) <= speed < (1024 ** 3):
                             speedSecond = '%.2fMB/s'% (speed / (1024 ** 2) )
-
                         # GB级下载速度处理
                         elif (1024 ** 3) <= speed < (1024 ** 4):
                             speedSecond = '%.2fGB/s' % (speed / (1024 ** 3))
