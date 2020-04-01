@@ -28,7 +28,6 @@ def click():
     label2.place(x=100, y=100)
     window.mainloop()
 if __name__ == '__main__':
-    print('%.2fMB/s', (20480 / (1024 ** 2)))
     l = tkinter.Tk()
     bt = tkinter.Button(l, text ="下载视频", font=('Arial', 15),command = click)
     bt.place(x=50,y=50)
