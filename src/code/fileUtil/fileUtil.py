@@ -14,7 +14,7 @@ import tkinter
 
 
 from tkinter import ttk, messagebox
-
+import tkinter
 def click():
     select = tkinter.StringVar()
     select.set("dd")

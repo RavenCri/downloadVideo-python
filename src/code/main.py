@@ -163,12 +163,12 @@ def downLoadVideo():
 
 # 开启UI更新、以及下载视频的线程
 def run():
-    global total_size,temp_size,percent,currVar,var_progress_bar_percent,speedSecond,var_progress_bar_percent
-
+    global total_size,temp_size,percent,currVar,var_progress_bar_percent,speedSecond,videoSize
+    #视频总字节
     total_size = 0
-    #
+    #已下字节
     temp_size = 0
-
+    # 已用秒数 用于更新下载已消耗的时间
     percent = 0
     #下载速度
     speedSecond = '0kb/s'
@@ -203,7 +203,7 @@ def flushTime():
 
 
 def flushUi():
-    global total_size,temp_size,speedSecond,var_progress_bar_percent
+    global total_size,temp_size,speedSecond,var_progress_bar_percent,canvas_progress_bar
 
     while True and not closeWindow:
         hour = int(percent / 3600)
@@ -212,13 +212,16 @@ def flushUi():
         if total_size != 0:
             # 计算绿线的距离
             green_length = int(500 * temp_size/ total_size)
-            # 画定义好的长方体
-            canvas_progress_bar.coords(canvas_shape, (0, 0, green_length, 25))
-            # 设置时间
-            canvas_progress_bar.itemconfig(canvas_text, text='已用时间：%02d:%02d:%02d 当前任务进度：%0.2f%%(下载速率：%s)' %
-                                                             (hour, minute, second,100*temp_size/ total_size,speedSecond))
+            try:
+                # 画定义好的长方体
+                canvas_progress_bar.coords(canvas_shape, (0, 0, green_length, 25))
+                # 设置时间
+                canvas_progress_bar.itemconfig(canvas_text, text='已用时间：%02d:%02d:%02d 当前视频大小：%.2fMB(下载速率：%s)' %
+                                                                 (hour, minute, second,total_size/(1024 ** 2), speedSecond))
+            except:
+                print("还未初始化好")
             # 设置百分比 这个无效果 原因待知
-            var_progress_bar_percent.set('%0.2f %%' % (100*temp_size/ total_size))
+            var_progress_bar_percent.set('任务进度：%0.2f %%' % (100*temp_size/ total_size))
             time.sleep(0.05)
             # print("UI的done:" + str(done))
 
@@ -338,8 +341,8 @@ def on_closing2():
 
 
 def showDownUI():
-    global canvas_progress_bar, canvas_shape, canvas_text, closeWindow,top
-    top = tk.Tk()
+    global canvas_progress_bar, canvas_shape, canvas_text, closeWindow,top,canvas_progress_bar
+    top = tk.Toplevel(myWindow)
     top.title('下载进程')
     closeWindow = False
     screenwidth = top.winfo_screenwidth()
@@ -354,25 +357,25 @@ def showDownUI():
     canvas_progress_bar = tk.Canvas(top, width=sum_length, height=20)
     # 创建绿色的长方体 （0,0）宽0 高25
     canvas_shape = canvas_progress_bar.create_rectangle(0, 0, 0, 25, fill='blue')
-    # 创建文字（时间）
-    canvas_text = canvas_progress_bar.create_text(100, 4, anchor=tk.NW)
+    # 创建文字 描述下载项目的一些数据
+    canvas_text = canvas_progress_bar.create_text(60, 4, anchor=tk.NW)
     # 进度条添加文字
     canvas_progress_bar.itemconfig(canvas_text, text='已用时间：00:00:00',fill='red')
     # 设置进度条位置
     canvas_progress_bar.place(relx=0.45, rely=0.4, anchor=tk.CENTER)
 
-    cu = tk.Label(top, text=currVar.get(), bg="white", fg="green", font=('Arial', 13))
+    cu = tk.Label(top, textvariable=currVar, bg="white", fg="green", font=('Arial', 13))
     cu.place(x=20, y=20)
 
-   # var_progress_bar_percent.set('00.00 %')
-    var_progress_bar_percent.set('')
+    var_progress_bar_percent.set('00.00 %')
+
     # 百分比标签  不能正常显示 ！！！
-    label_progress_bar_percent = tk.Label(top, text=var_progress_bar_percent.get(),fg='#F5F5F5', bg='#535353')
+    label_progress_bar_percent = tk.Label(top, textvariable=var_progress_bar_percent,fg='#F5F5F5', bg='#535353')
     label_progress_bar_percent.place(relx=0.89, rely=0.4, anchor=tk.CENTER)
 
     top.protocol('WM_DELETE_WINDOW', on_closing)
 
-    top.mainloop()
+    #top.mainloop()
 
 
 
@@ -444,7 +447,7 @@ def initUI():
     grades.place(x=200, y=100)
     gradesSelect = ttk.Combobox(myWindow)
     gradesSelect.pack()
-    gradesSelect.bind("<<ComboboxSelected>>", lambda event: gradesFunc(gradesSelect))  # #给下拉菜单绑定事件
+    gradesSelect.bind("<<ComboboxSelected>>", lambda event: gradesFunc(gradesSelect))
     # 执行初始化更新
     gradesBox()
     '''
