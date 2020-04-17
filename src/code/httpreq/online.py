@@ -22,7 +22,7 @@ def updateData():
         if len(json_str) == 0:
             break
         newJSON={
-            str(  ):json_str
+            str(filesNum):json_str
         }
         # 字典转字符串
         #newJSON = json.dumps(newJSON)
