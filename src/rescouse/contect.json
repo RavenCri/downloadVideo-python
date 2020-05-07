@@ -14,430 +14,430 @@
         "name": "高中"
     }],
     "GLOBAL_GRADES":{
-        "10": {
-            "code": "10",
-            "name": "高一年级",
-            "phaseCode": "05",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["01", "07"]
-            }, {
-                "subjectCode": "03",
-                "editions": ["07", "01", "23"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["06", "14"]
-            }, {
-                "subjectCode": "05",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "06",
-                "editions": ["01", "90"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20"]
-            }, {
-                "subjectCode": "102",
-                "editions": ["63", "08"]
-            }, {
-                "subjectCode": "103",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "12",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "13",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "14",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "26",
-                "editions": ["30"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }]
-        },
-        "11": {
-            "code": "11",
-            "name": "高二年级",
-            "phaseCode": "05",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["01", "07"]
-            }, {
-                "subjectCode": "03",
-                "editions": ["07", "01", "23"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["06", "14"]
-            }, {
-                "subjectCode": "05",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "06",
-                "editions": ["01", "90"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20"]
-            }, {
-                "subjectCode": "102",
-                "editions": ["63", "08"]
-            }, {
-                "subjectCode": "103",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "12",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "13",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "14",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "26",
-                "editions": ["30"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }]
-        },
-        "01": {
-            "code": "01",
-            "name": "一年级",
-            "phaseCode": "03",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["996", "01", "07"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["14", "06", "01", "55"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20", "01"]
-            }, {
-                "subjectCode": "19",
-                "editions": ["12", "08", "50", "995", "997"]
-            }, {
-                "subjectCode": "239",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }]
-        },
-        "02": {
-            "code": "02",
-            "name": "二年级",
-            "phaseCode": "03",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["996", "01", "07"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["14", "06", "01", "55"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20", "01"]
-            }, {
-                "subjectCode": "19",
-                "editions": ["12", "08", "50", "997"]
-            }, {
-                "subjectCode": "239",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }]
-        },
-        "03": {
-            "code": "03",
-            "name": "三年级",
-            "phaseCode": "03",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["996", "01", "07"]
-            }, {
-                "subjectCode": "03",
-                "editions": ["01", "09"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["14", "06", "01", "55"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20", "01"]
-            }, {
-                "subjectCode": "19",
-                "editions": ["12", "08", "50", "997"]
-            }, {
-                "subjectCode": "239",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "26",
-                "editions": ["93"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }]
-        },
-        "04": {
-            "code": "04",
-            "name": "四年级",
-            "phaseCode": "03",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["996", "01", "07"]
-            }, {
-                "subjectCode": "03",
-                "editions": ["01", "09"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["14", "06", "01", "55"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20", "01"]
-            }, {
-                "subjectCode": "19",
-                "editions": ["12", "08", "50", "997"]
-            }, {
-                "subjectCode": "239",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "26",
-                "editions": ["93"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }]
-        },
-        "05": {
-            "code": "05",
-            "name": "五年级",
-            "phaseCode": "03",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["996", "01", "07"]
-            }, {
-                "subjectCode": "03",
-                "editions": ["01", "09"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["14", "06", "01", "55"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20", "01"]
-            }, {
-                "subjectCode": "19",
-                "editions": ["12", "08", "50", "997"]
-            }, {
-                "subjectCode": "239",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "26",
-                "editions": ["93"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }]
-        },
-        "06": {
-            "code": "06",
-            "name": "六年级",
-            "phaseCode": "03",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["996", "01", "07"]
-            }, {
-                "subjectCode": "03",
-                "editions": ["01", "09"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["14", "06", "01", "55"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20", "01"]
-            }, {
-                "subjectCode": "19",
-                "editions": ["12", "08", "50", "997"]
-            }, {
-                "subjectCode": "239",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "26",
-                "editions": ["93"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }]
-        },
-        "07": {
-            "code": "07",
-            "name": "七年级",
-            "phaseCode": "04",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["01", "13", "07"]
-            }, {
-                "subjectCode": "03",
-                "editions": ["01", "23", "02"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["06", "14", "01", "55"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20", "01"]
-            }, {
-                "subjectCode": "12",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "130",
-                "editions": ["01", "07", "08"]
-            }, {
-                "subjectCode": "14",
-                "editions": ["01", "16", "97"]
-            }, {
-                "subjectCode": "239",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "26",
-                "editions": ["34"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }]
-        },
-        "08": {
-            "code": "08",
-            "name": "八年级",
-            "phaseCode": "04",
-            "childrenCodes": [{
-                "subjectCode": "01",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "02",
-                "editions": ["01", "13", "07"]
-            }, {
-                "subjectCode": "03",
-                "editions": ["01", "23", "02"]
-            }, {
-                "subjectCode": "04",
-                "editions": ["06", "14", "01", "55"]
-            }, {
-                "subjectCode": "05",
-                "editions": ["01", "07", "13", "994"]
-            }, {
-                "subjectCode": "09",
-                "editions": ["11", "20", "01"]
-            }, {
-                "subjectCode": "12",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "130",
-                "editions": ["01", "07", "08"]
-            }, {
-                "subjectCode": "14",
-                "editions": ["01", "16", "97"]
-            }, {
-                "subjectCode": "239",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "25",
-                "editions": ["01"]
-            }, {
-                "subjectCode": "26",
-                "editions": ["34"]
-            }, {
-                "subjectCode": "98",
-                "editions": ["998"]
-            }, {
-                "subjectCode": "99",
-                "editions": ["999"]
-            }]
-        }
-    },
+	"10": {
+		"code": "10",
+		"name": "高一年级",
+		"phaseCode": "05",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["01", "07"]
+		}, {
+			"subjectCode": "03",
+			"editions": ["07", "01", "23"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["06", "14"]
+		}, {
+			"subjectCode": "05",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "06",
+			"editions": ["01", "90"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20"]
+		}, {
+			"subjectCode": "102",
+			"editions": ["63", "08"]
+		}, {
+			"subjectCode": "103",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "12",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "13",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "14",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "26",
+			"editions": ["30"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}]
+	},
+	"11": {
+		"code": "11",
+		"name": "高二年级",
+		"phaseCode": "05",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["01", "07"]
+		}, {
+			"subjectCode": "03",
+			"editions": ["07", "01", "23"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["06", "14"]
+		}, {
+			"subjectCode": "05",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "06",
+			"editions": ["01", "90"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20"]
+		}, {
+			"subjectCode": "102",
+			"editions": ["63", "08"]
+		}, {
+			"subjectCode": "103",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "12",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "13",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "14",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "26",
+			"editions": ["30"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}]
+	},
+	"01": {
+		"code": "01",
+		"name": "一年级",
+		"phaseCode": "03",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["996", "01", "07"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["14", "06", "01", "55"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20", "01"]
+		}, {
+			"subjectCode": "19",
+			"editions": ["12", "08", "50", "995", "997"]
+		}, {
+			"subjectCode": "239",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}]
+	},
+	"02": {
+		"code": "02",
+		"name": "二年级",
+		"phaseCode": "03",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["996", "01", "07"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["14", "06", "01", "55"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20", "01"]
+		}, {
+			"subjectCode": "19",
+			"editions": ["12", "08", "50", "997"]
+		}, {
+			"subjectCode": "239",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}]
+	},
+	"03": {
+		"code": "03",
+		"name": "三年级",
+		"phaseCode": "03",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["996", "01", "07"]
+		}, {
+			"subjectCode": "03",
+			"editions": ["01", "09"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["14", "06", "01", "55"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20", "01"]
+		}, {
+			"subjectCode": "19",
+			"editions": ["12", "08", "50", "997"]
+		}, {
+			"subjectCode": "239",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "26",
+			"editions": ["93"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}]
+	},
+	"04": {
+		"code": "04",
+		"name": "四年级",
+		"phaseCode": "03",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["996", "01", "07"]
+		}, {
+			"subjectCode": "03",
+			"editions": ["01", "09"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["14", "06", "01", "55"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20", "01"]
+		}, {
+			"subjectCode": "19",
+			"editions": ["12", "08", "50", "997"]
+		}, {
+			"subjectCode": "239",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "26",
+			"editions": ["93"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}]
+	},
+	"05": {
+		"code": "05",
+		"name": "五年级",
+		"phaseCode": "03",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["996", "01", "07"]
+		}, {
+			"subjectCode": "03",
+			"editions": ["01", "09"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["14", "06", "01", "55"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20", "01"]
+		}, {
+			"subjectCode": "19",
+			"editions": ["12", "08", "50", "997"]
+		}, {
+			"subjectCode": "239",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "26",
+			"editions": ["93"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}]
+	},
+	"06": {
+		"code": "06",
+		"name": "六年级",
+		"phaseCode": "03",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["996", "01", "07"]
+		}, {
+			"subjectCode": "03",
+			"editions": ["01", "09"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["14", "06", "01", "55"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20", "01"]
+		}, {
+			"subjectCode": "19",
+			"editions": ["12", "08", "50", "997"]
+		}, {
+			"subjectCode": "239",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "26",
+			"editions": ["93"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}]
+	},
+	"07": {
+		"code": "07",
+		"name": "七年级",
+		"phaseCode": "04",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["01", "13", "07"]
+		}, {
+			"subjectCode": "03",
+			"editions": ["01", "23", "02"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["06", "14", "01", "55"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20", "01"]
+		}, {
+			"subjectCode": "12",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "130",
+			"editions": ["01", "07", "08"]
+		}, {
+			"subjectCode": "14",
+			"editions": ["01", "16", "97"]
+		}, {
+			"subjectCode": "239",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "26",
+			"editions": ["34"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}]
+	},
+	"08": {
+		"code": "08",
+		"name": "八年级",
+		"phaseCode": "04",
+		"childrenCodes": [{
+			"subjectCode": "01",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "02",
+			"editions": ["01", "13", "07"]
+		}, {
+			"subjectCode": "03",
+			"editions": ["01", "23", "02"]
+		}, {
+			"subjectCode": "04",
+			"editions": ["06", "14", "01", "55"]
+		}, {
+			"subjectCode": "05",
+			"editions": ["01", "07", "13", "994"]
+		}, {
+			"subjectCode": "09",
+			"editions": ["11", "20", "01"]
+		}, {
+			"subjectCode": "12",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "130",
+			"editions": ["01", "07", "08"]
+		}, {
+			"subjectCode": "14",
+			"editions": ["01", "16", "97"]
+		}, {
+			"subjectCode": "239",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "25",
+			"editions": ["01"]
+		}, {
+			"subjectCode": "26",
+			"editions": ["34"]
+		}, {
+			"subjectCode": "98",
+			"editions": ["998"]
+		}, {
+			"subjectCode": "99",
+			"editions": ["999"]
+		}]
+	}
+},
     "GLOBAL_EDITIONS":{
         "11": {
             "code": "11",
@@ -719,7 +719,7 @@
             "name": "广德县"
         }
     }
-    
+
     
 
 }

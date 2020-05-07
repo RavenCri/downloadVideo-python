@@ -17,10 +17,12 @@ def updateData():
     while True:
         r = requests.get((url % filesNum), headers=header, stream=True, verify=False)
         json_str = r.content.decode()
-        json_str= json_str.split("=", 1)[1]
-        json_str = json.loads(json_str)
-        if len(json_str) == 0:
+        if json_str.find("404 Not Found") > 0:
             break
+        json_str= json_str.split("=", 1)[1]
+
+        json_str = json.loads(json_str)
+
         newJSON={
             str(filesNum):json_str
         }

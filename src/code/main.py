@@ -203,9 +203,9 @@ def flushTime():
 
 
 def flushUi():
-    global total_size,temp_size,speedSecond,var_progress_bar_percent,canvas_progress_bar
-
-    while True and not closeWindow:
+    global total_size,temp_size,speedSecond,var_progress_bar_percent,canvas_progress_bar,closeWindow
+    closeWindow = False
+    while not closeWindow:
         hour = int(percent / 3600)
         minute = int(percent / 60) - hour * 60
         second = percent % 60
@@ -246,10 +246,11 @@ def downVideo():
         currVar.set("共有%d个任务,当前下载第%d个视频:%s" % (
             len(selectIndexs), (index + 1), videos[selectIndexs[index]]['package_name']))
 
+
         fileName = "第%s课时-%s-%s-%s-%s" % (
             videos[item]['class_period'],
             # (int(wedMap[wedSelect.get()])+1)*5,
-            contect['GLOBAL_GRADES'][videos[selectIndexs[index]]['grade']]['name'],
+            contect['GLOBAL_GRADES'][ videos[selectIndexs[index]]['grade'][0:2] ]['name'],
             contect['GLOBAL_SUBJECTS'][videos[selectIndexs[index]]['subject']]['name'],
             contect['GLOBAL_EDITIONS'][videos[selectIndexs[index]]['edition']]['name'],
             re.sub('[\/:*?"<>|]', '-', videos[item]['package_name']))
@@ -259,7 +260,7 @@ def downVideo():
         total_size = int(r.headers['Content-Length'])
         temp_size = 0
         done = 0
-        currPath = os.path.join(downPath, contect['GLOBAL_GRADES'][videos[selectIndexs[index]]['grade']]['name'],
+        currPath = os.path.join(downPath, contect['GLOBAL_GRADES'][videos[selectIndexs[index]]['grade'][0:2]]['name'],
                                 contect['GLOBAL_SUBJECTS'][videos[selectIndexs[index]]['subject']]['name'],
                                 contect['GLOBAL_EDITIONS'][videos[selectIndexs[index]]['edition']]['name']
                                 )
@@ -341,10 +342,10 @@ def on_closing2():
 
 
 def showDownUI():
-    global canvas_progress_bar, canvas_shape, canvas_text, closeWindow,top,canvas_progress_bar
+    global canvas_progress_bar, canvas_shape, canvas_text, closeWindow,top,canvas_progress_bar,closeWindow
     top = tk.Toplevel(myWindow)
     top.title('下载进程')
-    closeWindow = False
+
     screenwidth = top.winfo_screenwidth()
     screenheight = top.winfo_screenheight()
     alignstr = '%dx%d+%d+%d' % (700, 200, (screenwidth - 700) / 2, (screenheight - 200) / 2)
@@ -412,12 +413,13 @@ def initUI():
     recousePath = os.path.join(os.path.abspath('../'), "rescouse")
     files = os.listdir(recousePath)
     fileNum = len(files)
+    currIndex = 5
     # 因为目前只有五周的课程，后面应该显示更新后的课程
-    while fileNum > 6:
-        key = '第%d周' % (fileNum - 1)
-        val = ('%d' % (fileNum - 2))
+    while currIndex < fileNum-1:
+        key = '第%d周' % (currIndex+1)
+        val = ('%d' % (currIndex))
         wedMap[key] = val
-        fileNum -= 1
+        currIndex += 1;
 
     wed.place(x=200, y=20)
     wedSelect = ttk.Combobox(myWindow)
