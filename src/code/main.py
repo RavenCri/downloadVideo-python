@@ -550,18 +550,22 @@ def subjectBox():
     for gradChid in contect['GLOBAL_GRADES']:
         # print(contect['GLOBAL_GRADES'][gradChid]['name'] )
         # 如果年级匹配 或者 学段匹配 则 保存 应该出现的科目
-        if (contect['GLOBAL_GRADES'][gradChid]['name'] == gradesSelect.get() or grad[gradesSelect.get()] == '00') and \
+        if (contect['GLOBAL_GRADES'][gradChid]['name'] == gradesSelect.get() or grad[gradesSelect.get()] == '00') or \
                 contect['GLOBAL_GRADES'][gradChid]['phaseCode'] == pha[phasesSelect.get()]:
             # print(contect['GLOBAL_GRADES'][gradChid])
             for g in contect['GLOBAL_GRADES'][gradChid]['childrenCodes']:
                 # print(contect['GLOBAL_GRADES'][gradChid]['phaseCode'])
                 # 年级代码  阶段代码
                 show_subj_code[g['subjectCode']] = contect['GLOBAL_GRADES'][gradChid]['phaseCode']
+    print(show_subj_code)
 
     for su in contect['GLOBAL_SUBJECTS'].keys():
 
         # 如果科目编码相同 或者选中了所有科目 ，则把科目添加到要显示的科目里
-        if (contect['GLOBAL_SUBJECTS'][su]['code'] in show_subj_code.keys() or pha[phasesSelect.get()] == '00'):
+        if (contect['GLOBAL_SUBJECTS'][su]['code'] in show_subj_code.keys() or
+                (pha[phasesSelect.get()] == '00' and grad[gradesSelect.get()] == '00')
+
+        ):
             subj[contect['GLOBAL_SUBJECTS'][su]['name']] = contect['GLOBAL_SUBJECTS'][su]['code']
 
     print("显示的科目" + str(list(subj.keys())))

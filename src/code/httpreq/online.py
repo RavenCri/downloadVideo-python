@@ -22,7 +22,8 @@ def updateData():
         json_str= json_str.split("=", 1)[1]
 
         json_str = json.loads(json_str)
-
+        if len(json_str) == 0:
+            break
         newJSON={
             str(filesNum):json_str
         }
